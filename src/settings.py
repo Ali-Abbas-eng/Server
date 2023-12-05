@@ -56,7 +56,7 @@ INSTALLED_APPS = [
     "accounts.apps.AccountsConfig",
 ]
 
-ASGI_APPLICATION = 'mywebsite.asgi.application'
+ASGI_APPLICATION = 'src.asgi.application'
 
 CHANNEL_LAYERS = {
     'default':{
