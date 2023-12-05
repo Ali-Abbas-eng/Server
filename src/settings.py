@@ -54,6 +54,7 @@ INSTALLED_APPS = [
 
     # Local
     "accounts.apps.AccountsConfig",
+    "chat",
 ]
 
 ASGI_APPLICATION = 'src.asgi.application'
