@@ -1,0 +1,3 @@
+[submodule "gptengine"]
+	path = gptengine
+	url = git@bitbucket.org:ali-abbas-personal/gptengine.git
