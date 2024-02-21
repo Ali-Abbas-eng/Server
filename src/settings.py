@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework.authtoken",
     "allauth",
-    "allauth.account",
     "allauth.socialaccount",
     "dj_rest_auth",
     "dj_rest_auth.registration",
@@ -54,6 +53,10 @@ INSTALLED_APPS = [
     "accounts.apps.AccountsConfig",
     "speaking_session",
 ]
+AUTH_USER_MODEL = 'accounts.CustomUser'
+REST_AUTH_SERIALIZERS = {
+    'LOGIN_SERIALIZER': 'accounts.serializers.CustomLoginSerializer',
+}
 
 ASGI_APPLICATION = 'src.asgi.application'
 
@@ -149,7 +152,6 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-AUTH_USER_MODEL = "accounts.CustomUser"
 
 REST_FRAMEWORK = {
     "DEFAULT_PERMISSION_CLASSES": [
