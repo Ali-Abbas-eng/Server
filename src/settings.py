@@ -47,17 +47,19 @@ INSTALLED_APPS = [
     "corsheaders",
     "rest_framework.authtoken",
     "allauth",
+    "allauth.account",
     "allauth.socialaccount",
     "dj_rest_auth",
     "dj_rest_auth.registration",
 
     # Local
-    "accounts.apps.AccountsConfig",
+    "accounts",
     "speaking_session",
 ]
 AUTH_USER_MODEL = 'accounts.CustomUser'
 REST_AUTH_SERIALIZERS = {
-    'LOGIN_SERIALIZER': 'accounts.serializers.CustomLoginSerializer',
+    'LOGIN_SERIALIZER': 'accounts.serializers.LoginSerializer',
+    'REGISTER_SERIALIZER': 'accounts.serializers.RegisterSerializer',
 }
 
 ASGI_APPLICATION = 'src.asgi.application'

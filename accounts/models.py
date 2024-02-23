@@ -4,5 +4,8 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     name = models.CharField(null=False, blank=False, max_length=200)
+    first_name = models.CharField(null=False, blank=False, max_length=200)
+    last_name = models.CharField(null=False, blank=False, max_length=200)
     email = models.EmailField(null=False, blank=False, max_length=300)
     phone_number = models.CharField(null=False, blank=False, max_length=10)
+
