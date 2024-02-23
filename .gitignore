@@ -47,5 +47,5 @@ Thumbs.db
 *.flv
 *.mov
 *.wmv
-media/audios/*.wav
+*.wav
 *.sqlite3
