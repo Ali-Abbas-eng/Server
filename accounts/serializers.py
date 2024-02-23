@@ -33,7 +33,7 @@ class LoginSerializer(serializers.Serializer):
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['first_name', 'last_name', 'email', 'phone_number']  # add the fields you want to return here
+        fields = ['first_name', 'last_name', 'username', 'email', 'phone_number']
 
 
 class TokenSerializer(DefaultTokenSerializer):
