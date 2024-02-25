@@ -61,8 +61,8 @@
                 chat_socket.onmessage = function (event){
                 let data = JSON.parse(event.data);
                 console.log('Data: ', data);
-                if (data.audio_url) {
-                    let audio = new Audio(data.audio_url);
+                if (data.audio) {
+                    let audio = new Audio(data.audio);
                     audio.play();
                 }
                 };
