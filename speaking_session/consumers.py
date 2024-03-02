@@ -7,14 +7,21 @@ import os
 
 
 class SpeakingSessionConsumer(AsyncWebsocketConsumer):
-    def __init__(self):
+    def __init__(self, *args, **kwargs):
         super().__init__()
-        self.ai_processor = SpeakingSessionManager(GeneralConversationalist())
-        user_id = '0'  # later replace with user's actual id
-        self.path_template = os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, 'audios', user_id)
+        self.ai_processor = None
+        self.user_id = None
+        self.path_template = None
+
+    def session_initialiser(self):
+        session_type = self.scope['query_string'].decode('utf-8').split('=')[1]
+        self.ai_processor = SpeakingSessionManager(session_type)
+        self.user_id = '0'
+        self.path_template = os.path.join(settings.BASE_DIR, settings.MEDIA_ROOT, 'audios', self.user_id)
         os.makedirs(self.path_template, exist_ok=True)
 
     async def connect(self):
+        self.session_initialiser()
         await self.accept()
         await self.send(text_data=json.dumps({"type": "connection_established",
                                               "message": "You are now connected"}))
