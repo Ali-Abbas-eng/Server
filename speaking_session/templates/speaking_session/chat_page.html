@@ -1,15 +1,16 @@
 <!DOCTYPE html>
 <html>
     <body>
+        <div style="display: block; justify-content: center; align-items: flex-start; text-align: center;">
         <h1>Hello, Welcome to Echo Speaking Partner</h1>
         <div>
-            <form id="form">
-                <input type="text" name="message"/>
-                <button id="recordButton">Start Recording</button>
-                <button id="stopButton" disabled>Stop Recording</button>
-                <button id="playButton" disabled>Play Audio</button>
-            </form>
+            <button id="start">Start Conversation</button>
+            <button id="recordButton">Start Recording</button>
+            <button id="stopButton" disabled>Stop Recording</button>
+            <button id="playButton" disabled>Play Audio</button>
         </div>
+        </div>
+
 
         <script type="text/javascript">
             let url = `ws://${window.location.host}/ws/socket-server/`;
@@ -18,6 +19,11 @@
 
             let mediaRecorder;
             let recordedChunks = [];
+
+
+            document.getElementById('start').addEventListener('click', function() {
+                chat_socket.send(JSON.stringify({'start': 1}));
+            });
 
             document.getElementById('recordButton').addEventListener('click', function() {
                 navigator.mediaDevices.getUserMedia({ audio: true })
@@ -68,17 +74,7 @@
                 };
             };
 
-            let form = document.getElementById("form");
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                let message = e.target.message.value;
-                chat_socket.send(JSON.stringify(
-                    {
-                        "message": message,
-                    }
-                ));
-                form.reset();
-            });
+            
         </script>
     </body>
 </html>
