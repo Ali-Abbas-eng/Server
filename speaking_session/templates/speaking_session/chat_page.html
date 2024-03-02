@@ -1,23 +1,44 @@
 <!DOCTYPE html>
 <html>
     <body>
+        <div style="display: block; justify-content: center; align-items: flex-start; text-align: center;">
         <h1>Hello, Welcome to Echo Speaking Partner</h1>
         <div>
-            <form id="form">
-                <input type="text" name="message"/>
-                <button id="recordButton">Start Recording</button>
-                <button id="stopButton" disabled>Stop Recording</button>
-                <button id="playButton" disabled>Play Audio</button>
-            </form>
+            <select id="session_type">
+                <option value="general_english">General English</option>
+                <option value="ielts">IELTS</option>
+                <option value="general_german">General German</option>
+            </select>
+            <button id="start">Start Conversation</button>
+            <button id="recordButton" disabled>Start Recording</button>
+            <button id="stopButton" disabled>Stop Recording</button>
+            <button id="playButton" disabled>Play Audio</button>
+        </div>
         </div>
 
-        <script type="text/javascript">
-            let url = `ws://${window.location.host}/ws/socket-server/`;
-            const chat_socket = new WebSocket(url);
-            chat_socket.binaryType = 'arraybuffer';  // Add this line
 
+        <script type="text/javascript">
+            let chat_socket;
             let mediaRecorder;
             let recordedChunks = [];
+
+            document.getElementById('start').addEventListener('click', function() {
+                let session_type = document.getElementById('session_type').value;
+                let url = `ws://${window.location.host}/ws/socket-server/?session_type=${session_type}`;
+                chat_socket = new WebSocket(url);
+                chat_socket.onopen = function(event) {
+                chat_socket.send(JSON.stringify({"start": 1}));  // Send an empty message
+                };
+                chat_socket.onmessage = function (event){
+                    let data = JSON.parse(event.data);
+                    console.log('Data: ', data);
+                    if (data.audio) {
+                        let audio = new Audio(data.audio);
+                        audio.play();
+                    }
+                    document.getElementById('recordButton').disabled = false;
+                };
+            });
 
             document.getElementById('recordButton').addEventListener('click', function() {
                 navigator.mediaDevices.getUserMedia({ audio: true })
@@ -55,29 +76,6 @@
             document.getElementById('playButton').addEventListener('click', function() {
                 let audio = new Audio(URL.createObjectURL(new Blob(recordedChunks)));
                 audio.play();
-            });
-
-            chat_socket.onmessage = function (event){
-                chat_socket.onmessage = function (event){
-                let data = JSON.parse(event.data);
-                console.log('Data: ', data);
-                if (data.audio) {
-                    let audio = new Audio(data.audio);
-                    audio.play();
-                }
-                };
-            };
-
-            let form = document.getElementById("form");
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
-                let message = e.target.message.value;
-                chat_socket.send(JSON.stringify(
-                    {
-                        "message": message,
-                    }
-                ));
-                form.reset();
             });
         </script>
     </body>
