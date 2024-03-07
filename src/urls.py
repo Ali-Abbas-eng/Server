@@ -26,5 +26,6 @@ urlpatterns = [
     path('api/v1/dj-rest-auth/registration/', include("dj_rest_auth.registration.urls")),
     path('api-auth/', include("rest_framework.urls")),
     path('', include('speaking_session.urls')),
-    path('', include('accounts.urls'))
+    path('', include('accounts.urls')),
+    path('', include('chat_scenarios.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
