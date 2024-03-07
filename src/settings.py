@@ -29,7 +29,11 @@ SECRET_KEY = env.str('SECRET_KEY')
 DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', '10.0.2.2', env.str('SERVER_IP')]
-
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:9000",
+    "http://10.0.2.2"
+]
 AUTHENTICATION_BACKENDS = ['accounts.backends.EmailBackend',
                            'django.contrib.auth.backends.AllowAllUsersModelBackend']
 
