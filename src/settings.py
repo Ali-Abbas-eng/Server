@@ -58,6 +58,7 @@ INSTALLED_APPS = [
     # Local
     "accounts",
     "speaking_session",
+    "chat_scenarios"
 ]
 AUTH_USER_MODEL = 'accounts.CustomUser'
 REST_AUTH_SERIALIZERS = {
