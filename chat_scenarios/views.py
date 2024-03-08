@@ -1,16 +1,14 @@
-# chat_scenario/views.py
 from django.http import JsonResponse
 from .models import ChatScenario
-from django.views.decorators.csrf import csrf_exempt
 
-@csrf_exempt
+
 def chat_scenario_list(request):
     scenarios = ChatScenario.objects.all()
     scenario_list = []
     for scenario in scenarios:
         scenario_list.append({
             "id": scenario.id,
-            "socket_url": scenario.socket_url,
+            "socket_url": request.build_absolute_uri(scenario.socket_url).replace('http', 'ws'),
             "name": scenario.name,
             "description": scenario.description,
             "number_of_messages": scenario.number_of_messages,
