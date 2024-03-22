@@ -8,7 +8,7 @@ def chat_scenario_list(request):
     for scenario in scenarios:
         scenario_list.append({
             "id": scenario.id,
-            "socket_url": request.build_absolute_uri(scenario.socket_url).replace('http', 'ws'),
+            "socket_url": scenario.socket_url,
             "name": scenario.name,
             "description": scenario.description,
             "number_of_messages": scenario.number_of_messages,
