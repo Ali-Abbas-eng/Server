@@ -1,17 +1,17 @@
+from collections import defaultdict
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from .models import ChatScenario
-
 
 class ChatScenarioListView(APIView):
     permission_classes = [IsAuthenticated]
 
     def get(self, request):
         scenarios = ChatScenario.objects.all()
-        scenario_list = []
+        scenario_dict = defaultdict(list)
         for scenario in scenarios:
-            scenario_list.append({
+            scenario_dict[scenario.language].append({
                 "id": scenario.id,
                 "socket_url": scenario.socket_url,
                 "name": scenario.name,
@@ -20,4 +20,4 @@ class ChatScenarioListView(APIView):
                 "background_url": request.build_absolute_uri(scenario.background_url),
                 "image_url": request.build_absolute_uri(scenario.image_url),
             })
-        return Response(scenario_list)
+        return Response(dict(scenario_dict))

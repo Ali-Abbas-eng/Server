@@ -4,6 +4,7 @@ from django.conf import settings
 
 class ChatScenario(models.Model):
     id = models.AutoField(primary_key=True)
+    language = models.CharField(max_length=100, unique=False, null=False)
     socket_url = models.CharField(verbose_name="Socket URL", max_length=1000)
     name = models.CharField(max_length=255)
     description = models.TextField(default="")
