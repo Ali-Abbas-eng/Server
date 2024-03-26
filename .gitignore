@@ -50,3 +50,8 @@ Thumbs.db
 *.wav
 *.sqlite3
 *.mp3
+
+*/*/background/*.jpg
+*/*/background/*.png
+*/*/image/*.jpg
+*/*/image/*.png
