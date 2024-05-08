@@ -11,6 +11,7 @@ class SpeakingSessionConsumer(AsyncWebsocketConsumer):
         self.ai_processor = None
         self.user_id = None
         self.path_template = None
+        self.message_counter = 0
 
     def session_initialiser(self):
         session_type = self.scope['query_string'].decode('utf-8').split('=')[1]
@@ -28,7 +29,10 @@ class SpeakingSessionConsumer(AsyncWebsocketConsumer):
     async def receive(self, text_data=None, bytes_data=None):
         input_audio_file_path = None
         output_audio_file_path = os.path.join(self.path_template, '0_out')
+        is_chunk = None
         if bytes_data:
+            self.message_counter += 1
+            is_chunk = (self.message_counter % 2 == 1)
             print('I am here, binary data was received successfully')
             input_audio_file_path = os.path.join(self.path_template, '0_in.wav')
             with open(input_audio_file_path, 'wb') as audio_file:
@@ -36,6 +40,6 @@ class SpeakingSessionConsumer(AsyncWebsocketConsumer):
                 audio_file.close()
         else:
             print('No binary data was received')
-        response = self.ai_processor(input_audio_file_path, output_audio_file_path)
+        response = self.ai_processor(input_audio_file_path, output_audio_file_path, is_chunk)
         print(f'Response: {response}')
         await self.send(text_data=json.dumps(response))
